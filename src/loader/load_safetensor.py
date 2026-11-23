@@ -67,7 +67,9 @@ def get_dtype(header: dict, tensor_name: str):
     if tensor_name not in header:
         raise ValueError(f"{tensor_name} not in header!")
 
-    dtype = header[tensor_name]["dtype"]
+    dtype = header[tensor_name]["dtype"]  # the string from the JSON, e.g. "F32"
+    if dtype not in NUMPY_DTYPES:
+        raise ValueError(f"{tensor_name}: unsupported dtype {dtype!r}")
 
     return NUMPY_DTYPES[dtype]
 
@@ -77,8 +79,6 @@ def as_np_buffer(tensor_name: str, header: dict, tensor_map: dict):
         raise ValueError(f"{tensor_name} not in header!")
 
     dtype = get_dtype(header, tensor_name)
-    if dtype not in NUMPY_DTYPES:
-        raise KeyError(f"Unsupported dtype: {dtype}")
 
     np_buffer = np.frombuffer(tensor_map[tensor_name], dtype=dtype).reshape(
         get_shape(header, tensor_name)
