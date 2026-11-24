@@ -3,8 +3,6 @@ import json
 import struct
 import numpy as np
 
-FILE_PATH = "C:\\Users\\youra\\models\\gpt2\\model.safetensors"
-
 NUMPY_DTYPES = {
     "F64": np.float64,
     "F32": np.float32,
@@ -88,6 +86,7 @@ def as_np_buffer(tensor_name: str, header: dict, tensor_map: dict):
 
 
 if __name__ == "__main__":
+    FILE_PATH = "C:\\Users\\youra\\models\\gpt2\\model.safetensors"
     header_size, header, raw = load_safetensors(FILE_PATH)
     output = {"header_size": header_size, "header": header}
 
