@@ -18,8 +18,6 @@ class Block:
             if k.startswith(f"{prefix}."):
                 tensor_names.append(k)
 
-        print(tensor_names)
-
         for name in tensor_names:
             if name not in self._tensor_map:
                 raise KeyError(f"{name} is not found in the tensor map!!!")

@@ -3,8 +3,6 @@ import json
 import struct
 import numpy as np
 
-FILE_PATH = "C:\\Users\\youra\\models\\gpt2\\model.safetensors"
-
 NUMPY_DTYPES = {
     "F64": np.float64,
     "F32": np.float32,
@@ -85,27 +83,3 @@ def as_np_buffer(tensor_name: str, header: dict, tensor_map: dict):
     )
 
     return np_buffer
-
-
-if __name__ == "__main__":
-    header_size, header, raw = load_safetensors(FILE_PATH)
-    output = {"header_size": header_size, "header": header}
-
-    # Print out the header size, and header
-    # print(json.dumps(output, indent=2))
-
-    tensor_names = [k for k, v in header.items() if "data_offsets" in v]
-    print(f"We have {len(tensor_names)} tensors")
-    print("curr tensor name", tensor_names[1])
-
-    tensor_name = tensor_names[1]
-    print(header[tensor_name])
-
-    # Has a key->value pair of tensor names to the bytes
-    tensor_map = extract_tensor_bytes(header, raw)
-
-    wte_np_buff = as_np_buffer("wte.weight", header, tensor_map)
-    print(wte_np_buff)
-
-    wpe_np_buff = as_np_buffer("wpe.weight", header, tensor_map)
-    print(wpe_np_buff)
